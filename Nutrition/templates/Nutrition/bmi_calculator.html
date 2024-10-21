@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BMI Calculator</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      nav {
+        background-color: #333;
+        padding: 15px;
+      }
+      nav ul {
+        display: flex;
+        justify-content: center;
+        list-style-type: none;
+      }
+      nav ul li {
+        margin: 0 20px;
+      }
+      nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+      }
+      nav ul li a:hover {
+        color: #ffcc00;
+      }
+      .container {
+        max-width: 500px;
+        margin: 50px auto;
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+      .container h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .container label {
+        display: block;
+        font-size: 18px;
+        margin: 10px 0 5px;
+      }
+      .container input {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      .container button {
+        width: 100%;
+        padding: 15px;
+        font-size: 18px;
+        background-color: #333;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .container button:hover {
+        background-color: #444;
+      }
+      .result-box {
+        background-color: #e7e7e7;
+        padding: 20px;
+        margin-top: 20px;
+        text-align: center;
+        border-radius: 5px;
+        font-size: 18px;
+      }
+      .result-box p {
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="{% url 'bmi_calculator' %}">BMI Calculator</a></li>
+        <li><a href="{% url 'healthy_diets' %}">Healthy Diets</a></li>
+        <li><a href="{% url 'exercise_plans' %}">Exercise Plans</a></li>
+        <li><a href="{% url 'know_yourself' %}">Know Yourself</a></li>
+        <li><a href="{% url 'fit_yoga_hit_yoga' %}">Fit Yoga Hit Yoga</a></li>
+      </ul>
+    </nav>
+
+    <!-- BMI Calculator Container -->
+    <div class="container">
+      <h1>BMI Calculator</h1>
+
+      <!-- Input form for height and weight -->
+      <form method="POST" action="{% url 'bmi_calculator' %}">
+        {% csrf_token %}
+        <label for="height">Enter your height (in meters):</label>
+        <input
+          type="number"
+          id="height"
+          name="height"
+          step="0.01"
+          placeholder="e.g. 1.75"
+          required
+        />
+
+        <label for="weight">Enter your weight (in kilograms):</label>
+        <input
+          type="number"
+          id="weight"
+          name="weight"
+          step="0.1"
+          placeholder="e.g. 70"
+          required
+        />
+
+        <!-- Calculate Button -->
+        <button type="submit">Calculate BMI</button>
+      </form>
+
+      <!-- Box to show the result, if available -->
+      {% if bmi %}
+      <div class="result-box">
+        <p>Your BMI: {{ bmi }}</p>
+        <p>Category: {{ category }}</p>
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>

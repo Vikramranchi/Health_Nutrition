@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Know Yourself</title>
+    <style>
+      /* Reset default margins and paddings */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Set background image */
+      body {
+        font-family: Arial, sans-serif;
+        /* Replace with your image */
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: #333;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* Style the navigation bar */
+      nav {
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 15px;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        width: 100%;
+        text-align: center;
+      }
+
+      nav ul {
+        display: flex;
+        justify-content: center;
+        list-style-type: none;
+      }
+
+      nav ul li {
+        margin: 0 15px;
+      }
+
+      nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        transition: color 0.3s ease;
+      }
+
+      nav ul li a:hover {
+        color: #ffcc00;
+      }
+
+      /* Main container styling */
+      .container {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        padding: 40px;
+        max-width: 600px;
+        margin: 20px;
+        text-align: center;
+      }
+
+      .container h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      /* Form Styles */
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      label {
+        font-size: 1.2rem;
+        margin-top: 15px;
+        text-align: left;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        font-size: 1rem;
+        color: #333;
+      }
+
+      input:focus,
+      select:focus {
+        border-color: #ffcc00;
+        outline: none;
+      }
+
+      button {
+        background-color: #ffcc00;
+        color: black;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #ffc107;
+        transform: scale(1.05);
+      }
+
+      /* Result Styles */
+      #result {
+        margin-top: 20px;
+        font-size: 1.5rem;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        color: #333;
+        border: 1px solid #ccc;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        width: 100%;
+        position: static;
+      }
+
+      /* Responsive design */
+      @media (max-width: 768px) {
+        .container {
+          padding: 30px;
+        }
+
+        .container h1 {
+          font-size: 2rem;
+        }
+
+        nav ul li a {
+          font-size: 16px;
+        }
+
+        button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="{% url 'bmi_calculator' %}">BMI Calculator</a></li>
+        <li><a href="{% url 'healthy_diets' %}">Healthy Diets</a></li>
+        <li><a href="{% url 'exercise_plans' %}">Exercise Plans</a></li>
+        <li><a href="{% url 'know_yourself' %}">Know Yourself</a></li>
+        <li><a href="{% url 'fit_yoga_hit_yoga' %}">Fit Yoga Hit Yoga</a></li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+      <h1>Know Yourself</h1>
+      <form id="healthForm" method="POST" action="{% url 'know_yourself' %}">
+        {% csrf_token %}
+        <label for="age">Age:</label>
+        <input type="number" name="age" id="age" required />
+
+        <label for="gender">Gender:</label>
+        <select name="gender" id="gender" required>
+          <option value="">Select</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+
+        <label for="weight">Weight (kg):</label>
+        <input type="number" name="weight" id="weight" required />
+
+        <label for="height">Height (cm):</label>
+        <input type="number" name="height" id="height" required />
+
+        <label for="activityLevel">Activity Level:</label>
+        <select name="activityLevel" id="activityLevel" required>
+          <option value="">Select</option>
+          <option value="sedentary">Sedentary (little or no exercise)</option>
+          <option value="light">
+            Lightly active (light exercise/sports 1-3 days/week)
+          </option>
+          <option value="moderate">
+            Moderately active (moderate exercise/sports 3-5 days/week)
+          </option>
+          <option value="active">
+            Active (hard exercise/sports 6-7 days a week)
+          </option>
+          <option value="very-active">
+            Very active (very hard exercise/physical job)
+          </option>
+        </select>
+
+        <label for="bloodPressure">Blood Pressure (mmHg):</label>
+        <input
+          type="text"
+          name="bloodPressure"
+          id="bloodPressure"
+          placeholder="e.g., 120/80"
+          required
+        />
+
+        <label for="bloodSugar">Blood Sugar Level (mg/dL):</label>
+        <input type="number" name="bloodSugar" id="bloodSugar" required />
+
+        <label for="temperature">Body Temperature (°C):</label>
+        <input type="number" name="temperature" id="temperature" required />
+
+        <button type="submit">Check Health Status</button>
+      </form>
+
+      {% if result %}
+      <div id="result">
+        Your BMI is {{ result.bmi }}. Health Status: {{ result.health_status
+        }}.<br />
+        Blood Pressure: {{ result.blood_pressure }}.<br />
+        Blood Sugar Level: {{ result.sugar_status }}.<br />
+        Body Temperature: {{ result.temp_status }}.
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2024 Health and Nutrition App</p>
+    </footer>
+  </body>
+</html>
